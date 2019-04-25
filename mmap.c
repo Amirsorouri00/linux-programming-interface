@@ -31,19 +31,19 @@ int main(void)
 
         printf("PID %d:\tanonymous %s, zero-backed %s\n", parpid, anon, zero);
         switch ((childpid = fork())) {
-        case -1:
-                err(1, "fork");
-                /* NOTREACHED */
-        case 0:
-                childpid = getpid();
-                printf("PID %d:\tanonymous %s, zero-backed %s\n", childpid, anon, zero);
-                sleep(3);
+            case -1:
+                    err(1, "fork");
+                    /* NOTREACHED */
+            case 0:
+                    childpid = getpid();
+                    printf("PID %d:\tanonymous %s, zero-backed %s\n", childpid, anon, zero);
+                    sleep(3);
 
-                printf("PID %d:\tanonymous %s, zero-backed %s\n", childpid, anon, zero);
-                munmap(anon, 4096);
-                munmap(zero, 4096);
-                close(fd);
-                return EXIT_SUCCESS;
+                    printf("PID %d:\tanonymous %s, zero-backed %s\n", childpid, anon, zero);
+                    munmap(anon, 4096);
+                    munmap(zero, 4096);
+                    close(fd);
+                    return EXIT_SUCCESS;
         }
 
         sleep(2);
