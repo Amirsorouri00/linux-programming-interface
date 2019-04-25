@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
             usageError(argv[0], NULL);
     }
 
-    if (argc < opt + 2 || argc > optind + 3)
+    if (argc < optind + 2 || argc > optind + 3)
         usageError(argv[0], "Wrong number of arguments\n");
 
     msqid = getInt(argv[optind], 0, "msqid");
