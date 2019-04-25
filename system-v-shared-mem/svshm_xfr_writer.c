@@ -1,5 +1,6 @@
-#include "semun.h"          /* Definition of semun union */
-#include "linux-programming-interface-book/system-v-shared-mem/svshm_xfr.h"
+#include "../svsem/semun.h"          /* Definition of semun union */
+#include "./svshm_xfr.h"
+
 
 int main ( int argc, char *argv[] )
 {
@@ -19,7 +20,7 @@ int main ( int argc, char *argv[] )
     if (shmid == -1)
         errExit("shmget");
     shmp = shmat(shmid, NULL, 0);
-    if (shmp == (void *) -1)
+    if ( shmp == (void *) -1 )
         errExit("shmat");
     /* Transfer blocks of data from stdin to shared memory */
 
@@ -54,5 +55,4 @@ int main ( int argc, char *argv[] )
 
     fprintf(stderr, "Sent %d bytes (%d xfrs)\n", bytes, xfrs);
     exit(EXIT_SUCCESS);
-
 }
