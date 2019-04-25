@@ -1,5 +1,5 @@
 #include <sys/types.h>
-#include <sys/semh>
+#include <sys/sem.h>
 #include "semun.h"              /* Definition of semun union */
 #include "binary_sems.h"
 
@@ -8,12 +8,13 @@ Boolean bsUseSemUndo = FALSE;
 Boolean bsRetryOnEintr = TRUE;
 
 
-int initSemAvailable(int semId, int semNum)     /* Initialize semaphore to 1 (i.e., "available") */
+int 
+initSemAvailable(int semId, int semNum)     /* Initialize semaphore to 1 (i.e., "available") */
 {
     union semun arg;
 
     arg.val = 1;
-    return semctl(semID, semNum, SETVAL, arg);
+    return semctl(semId, semNum, SETVAL, arg);
 }
 
 int                       /* Initialize semaphore to 0 (i.e., "in use") */
@@ -34,7 +35,7 @@ reserveSem(int semId, int semNum)
     struct sembuf sops;
 
     sops.sem_num = semNum;
-    sops.sem_op = -1
+    sops.sem_op = -1;
     sops.sem_flg = bsUseSemUndo ? SEM_UNDO : 0;
 
     while (semop(semId, &sops, 1) == -1)
@@ -42,3 +43,14 @@ reserveSem(int semId, int semNum)
             return -1;
 }
 
+int                                         /* Release semaphore - increment it by 1 */
+releaseSem(int semId, int semNum)
+{
+    struct sembuf sops;
+
+    sops.sem_num = semNum;
+    sops.sem_op = 1;
+    sops.sem_flg = bsUseSemUndo ? SEM_UNDO : 0;
+    
+    return semop(semId, &sops, 1);
+}

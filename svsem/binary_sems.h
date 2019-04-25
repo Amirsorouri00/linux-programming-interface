@@ -1,7 +1,7 @@
 #ifndef BINARY_SEMS_H           /* Prevent accidental double inclusion */
 #define BINARY_SEMS_H
 
-#include "tlpi_hdr.h"
+#include "../lib/tlpi_hdr.h"
 
 /* Variables controlling operation of functions below */
 
@@ -9,7 +9,7 @@
 extern Boolean bsUseSemUndo;     /* Use SEM_UNDO during semop()?*/
 extern Boolean bsRetryOnEintr;   /* retry if semop() interrupted by signal handler? */
 
-int initSemAvailabale(int semId, int semNum);
+int initSemAvailable(int semId, int semNum);
 
 int initSemInUse(int semId, int semNum);
 
